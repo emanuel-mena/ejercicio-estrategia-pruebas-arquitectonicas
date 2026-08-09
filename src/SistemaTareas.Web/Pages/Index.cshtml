@@ -1,0 +1,71 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Tareas";
+    var pendientes = Model.Tareas.Count(tarea => tarea.Estado == "Pendiente");
+    var asignadas = Model.Tareas.Count(tarea => tarea.Estado == "Asignada");
+}
+
+<section class="mb-8 rounded-3xl bg-primary px-6 py-10 text-primary-content shadow-xl md:px-10">
+    <div class="max-w-3xl">
+        <div class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] opacity-80">Grupo Barva</div>
+        <h1 class="text-4xl font-bold md:text-5xl">Asignación clara, rápida y segura</h1>
+        <p class="mt-4 max-w-2xl text-lg opacity-90">
+            Seleccione una tarea pendiente y asígnela a una persona activa del equipo.
+        </p>
+    </div>
+</section>
+
+<div class="mb-8 grid gap-4 sm:grid-cols-2">
+    <div class="stat rounded-2xl bg-base-100 shadow">
+        <div class="stat-title">Pendientes</div>
+        <div class="stat-value text-warning" data-testid="pending-count">@pendientes</div>
+    </div>
+    <div class="stat rounded-2xl bg-base-100 shadow">
+        <div class="stat-title">Asignadas</div>
+        <div class="stat-value text-success" data-testid="assigned-count">@asignadas</div>
+    </div>
+</div>
+
+<section>
+    <div class="mb-4 flex items-end justify-between gap-4">
+        <div>
+            <h2 class="text-2xl font-bold">Tareas del proyecto</h2>
+            <p class="text-base-content/60">Información almacenada en SQLite.</p>
+        </div>
+    </div>
+
+    <div class="grid gap-4" data-testid="task-list">
+        @foreach (var tarea in Model.Tareas)
+        {
+            <article class="card border border-base-300 bg-base-100 shadow-sm" data-task-id="@tarea.Id">
+                <div class="card-body gap-3 md:flex-row md:items-center">
+                    <div class="flex-1">
+                        <div class="mb-2 flex flex-wrap items-center gap-2">
+                            <h3 class="card-title">@tarea.Titulo</h3>
+                            <span class="badge @(tarea.Estado == "Pendiente" ? "badge-warning" : "badge-success")"
+                                  data-testid="task-status">@tarea.Estado</span>
+                        </div>
+                        <p class="text-base-content/70">@tarea.Descripcion</p>
+                        @if (tarea.UsuarioAsignado is not null)
+                        {
+                            <p class="mt-2 text-sm font-medium" data-testid="assignee">
+                                Responsable: @tarea.UsuarioAsignado
+                            </p>
+                        }
+                    </div>
+                    @if (tarea.Estado == "Pendiente")
+                    {
+                        <div class="card-actions">
+                            <a asp-page="/AsignarTarea"
+                               asp-route-tareaId="@tarea.Id"
+                               class="btn btn-primary"
+                               data-testid="assign-link">Asignar</a>
+                        </div>
+                    }
+                </div>
+            </article>
+        }
+    </div>
+</section>
+
