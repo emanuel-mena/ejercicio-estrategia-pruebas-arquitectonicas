@@ -33,7 +33,17 @@
             <h2 class="text-2xl font-bold">Tareas del proyecto</h2>
             <p class="text-base-content/60">Información almacenada en SQLite.</p>
         </div>
+        <a asp-page="/CrearTarea" class="btn btn-secondary" data-testid="create-task-link">
+            + Nueva tarea
+        </a>
     </div>
+
+    @if (TempData["Success"] is string mensaje)
+    {
+        <div class="alert alert-success mb-5" role="alert" data-testid="success-alert">
+            <span>@mensaje</span>
+        </div>
+    }
 
     <div class="grid gap-4" data-testid="task-list">
         @foreach (var tarea in Model.Tareas)
@@ -68,4 +78,3 @@
         }
     </div>
 </section>
-

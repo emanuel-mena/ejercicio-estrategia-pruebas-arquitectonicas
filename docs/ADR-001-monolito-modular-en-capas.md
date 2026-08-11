@@ -6,7 +6,7 @@
 
 ## Contexto
 
-El ejercicio requiere un sistema pequeño, funcional y demostrable para el flujo “Asignar tarea”, una base SQLite y pruebas arquitectónicas reales. El equipo es pequeño, el dominio es acotado y no existen requisitos de despliegue independiente o escala distribuida.
+El ejercicio requiere un sistema pequeño, funcional y demostrable para el flujo “Asignar tarea”, una base SQLite y pruebas arquitectónicas reales. La creación de tareas se incorpora como soporte de demostración para no depender únicamente de los tres registros semilla. El equipo es pequeño, el dominio es acotado y no existen requisitos de despliegue independiente o escala distribuida.
 
 ## Decisión
 
@@ -38,4 +38,3 @@ Negativas:
 ## Riesgo aceptado
 
 El sistema no implementa autenticación ni los flujos de otros grupos. Los datos semilla permiten demostrar Barva sin expandir el alcance.
-

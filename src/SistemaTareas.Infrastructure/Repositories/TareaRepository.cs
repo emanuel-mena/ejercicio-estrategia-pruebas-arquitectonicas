@@ -8,6 +8,11 @@ namespace SistemaTareas.Infrastructure.Repositories;
 
 public sealed class TareaRepository(TareasDbContext dbContext) : ITareaRepository
 {
+    public async Task AgregarAsync(Tarea tarea, CancellationToken cancellationToken)
+    {
+        await dbContext.Tareas.AddAsync(tarea, cancellationToken);
+    }
+
     public Task<Tarea?> ObtenerPorIdAsync(Guid id, CancellationToken cancellationToken) =>
         dbContext.Tareas.SingleOrDefaultAsync(tarea => tarea.Id == id, cancellationToken);
 
@@ -26,4 +31,3 @@ public sealed class TareaRepository(TareasDbContext dbContext) : ITareaRepositor
         }
     }
 }
-

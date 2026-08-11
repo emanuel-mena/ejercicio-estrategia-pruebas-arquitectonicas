@@ -1,0 +1,51 @@
+@page
+@model CrearTareaModel
+@{
+    ViewData["Title"] = "Nueva tarea";
+}
+
+<div class="mx-auto max-w-2xl">
+    <a asp-page="/Index" class="btn btn-ghost mb-4 px-0">← Volver a las tareas</a>
+
+    <section class="card border border-base-300 bg-base-100 shadow-xl">
+        <div class="card-body">
+            <div class="badge badge-secondary badge-outline">Nueva tarea</div>
+            <h1 class="card-title mt-2 text-3xl">Agregar trabajo al proyecto</h1>
+            <p class="text-base-content/70">
+                La tarea se guardará como pendiente y quedará disponible para asignación.
+            </p>
+
+            <form method="post" class="mt-5 space-y-5">
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-error"
+                     data-testid="validation-summary"></div>
+
+                <label class="form-control w-full">
+                    <span class="label-text mb-2 font-semibold">Título</span>
+                    <input asp-for="Titulo"
+                           class="input input-bordered w-full"
+                           placeholder="Ej. Preparar informe de avance"
+                           data-testid="task-title" />
+                    <span asp-validation-for="Titulo" class="mt-1 text-sm text-error"></span>
+                </label>
+
+                <label class="form-control w-full">
+                    <span class="label-text mb-2 font-semibold">Descripción</span>
+                    <textarea asp-for="Descripcion"
+                              class="textarea textarea-bordered min-h-32 w-full"
+                              placeholder="Detalle breve del trabajo por realizar"
+                              data-testid="task-description"></textarea>
+                    <span asp-validation-for="Descripcion" class="mt-1 text-sm text-error"></span>
+                </label>
+
+                <button type="submit" class="btn btn-secondary w-full" data-testid="create-submit">
+                    Crear tarea
+                </button>
+            </form>
+        </div>
+    </section>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

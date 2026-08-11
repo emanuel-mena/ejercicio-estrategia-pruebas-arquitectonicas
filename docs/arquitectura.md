@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-El sistema implementa únicamente el flujo crítico **Asignar tarea**. Las tareas y los usuarios se cargan como datos de demostración; crear, completar, notificar, auditar y reportar quedan fuera del alcance funcional.
+El sistema implementa el flujo crítico **Asignar tarea** y una función auxiliar para crear tareas durante la demostración. Completar, notificar, auditar y reportar quedan fuera del alcance funcional y de la estrategia de pruebas del grupo Barva.
 
 La solución es un monolito modular en capas. Se despliega como una sola aplicación, pero conserva fronteras explícitas para que el dominio y la aplicación no dependan de la web, Entity Framework Core ni SQLite.
 
@@ -12,8 +12,8 @@ La solución es un monolito modular en capas. Se despliega como una sola aplicac
 C4Context
     title Sistema de Tareas - Contexto
     Person(coordinador, "Coordinador", "Asigna tareas a integrantes activos")
-    System(sistema, "Sistema de Tareas", "Permite consultar y asignar tareas")
-    Rel(coordinador, sistema, "Consulta y asigna tareas", "HTTP/HTML")
+    System(sistema, "Sistema de Tareas", "Permite crear, consultar y asignar tareas")
+    Rel(coordinador, sistema, "Crea, consulta y asigna tareas", "HTTP/HTML")
 ```
 
 ## C4 nivel 2 — Contenedores
@@ -34,18 +34,22 @@ C4Container
 C4Component
     title Sistema de Tareas - Componentes
     Container_Boundary(web, "ASP.NET Core") {
-        Component(pages, "Razor Pages", "Presentación", "Lista tareas y recibe la asignación")
+        Component(pages, "Razor Pages", "Presentación", "Crea y lista tareas; recibe la asignación")
         Component(api, "API de asignación", "Minimal API", "Expone el caso de uso por HTTP")
         Component(usecase, "AsignarTareaUseCase", "Aplicación", "Orquesta el flujo y traduce resultados")
+        Component(createcase, "CrearTareaUseCase", "Aplicación", "Crea tareas pendientes para demostración")
         Component(domain, "Tarea", "Dominio", "Protege las reglas de asignación")
         Component(ports, "Contratos de repositorio", "Aplicación", "Puertos de persistencia")
         Component(adapters, "Repositorios EF Core", "Infraestructura", "Implementa los puertos")
     }
     ContainerDb(db, "SQLite", "Base de datos", "Persistencia local")
     Rel(pages, usecase, "Ejecuta")
+    Rel(pages, createcase, "Ejecuta")
     Rel(api, usecase, "Ejecuta")
     Rel(usecase, domain, "Invoca")
+    Rel(createcase, domain, "Crea")
     Rel(usecase, ports, "Depende de")
+    Rel(createcase, ports, "Depende de")
     Rel(adapters, ports, "Implementa")
     Rel(adapters, db, "Lee/escribe")
 ```
@@ -88,4 +92,3 @@ sequenceDiagram
 - Infrastructure implementa contratos con EF Core y SQLite.
 - Web consume casos de uso, nunca `DbContext` ni repositorios directamente.
 - La columna `Version` es un token de concurrencia optimista; dos asignaciones simultáneas no pueden sobrescribirse silenciosamente.
-

@@ -4,7 +4,7 @@ Proyecto académico funcional en C#/.NET 10 para demostrar el flujo crítico **A
 
 ## Alcance
 
-La aplicación permite consultar tareas precargadas y asignar una tarea pendiente a un usuario activo. No implementa autenticación, creación o finalización de tareas, reportes, auditoría ni notificaciones.
+La aplicación permite crear tareas de demostración, consultar el listado y asignar una tarea pendiente a un usuario activo. No implementa autenticación, finalización de tareas, reportes, auditoría ni notificaciones. La estrategia de pruebas académicas continúa enfocada en el flujo Barva de asignación.
 
 ## Requisitos
 
@@ -19,7 +19,7 @@ dotnet restore SistemaTareas.slnx
 dotnet run --project src/SistemaTareas.Web
 ```
 
-Abra `http://localhost:5080`. En el primer inicio se crea `src/SistemaTareas.Web/App_Data/tareas.db` y se insertan tres tareas y cuatro usuarios de demostración.
+Abra `http://localhost:5080`. En el primer inicio se crea `src/SistemaTareas.Web/App_Data/tareas.db` y se insertan tres tareas y cuatro usuarios de demostración. El botón **Nueva tarea** permite agregar todas las tareas adicionales necesarias para la presentación.
 
 ## API
 
@@ -87,7 +87,7 @@ Umbrales: 10 usuarios concurrentes, p95 ≤ 500 ms, p99 ≤ 1 segundo y errores 
 ## Estructura y entregables
 
 - `src/SistemaTareas.Domain`: entidades y reglas puras.
-- `src/SistemaTareas.Application`: caso de uso, consultas y puertos.
+- `src/SistemaTareas.Application`: casos de uso de creación y asignación, consultas y puertos.
 - `src/SistemaTareas.Infrastructure`: EF Core, SQLite, repositorios y datos semilla.
 - `src/SistemaTareas.Web`: Razor Pages, DaisyUI y API.
 - `tests`: pruebas unitarias, integración, arquitectura, sistema y rendimiento.
@@ -102,4 +102,3 @@ Umbrales: 10 usuarios concurrentes, p95 ≤ 500 ms, p99 ≤ 1 segundo y errores 
 - El `Guid Version` de `Tarea` es un token de concurrencia optimista compatible con SQLite.
 - La interfaz y la API llaman al mismo `AsignarTareaUseCase`.
 - La UI no contiene menús, reportes ni detalles sobre la ejecución de pruebas.
-
