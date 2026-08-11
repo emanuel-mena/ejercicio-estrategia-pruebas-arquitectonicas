@@ -1,3 +1,4 @@
+using Xunit;
 using FluentAssertions;
 using NetArchTest.Rules;
 using SistemaTareas.Application.Contracts;

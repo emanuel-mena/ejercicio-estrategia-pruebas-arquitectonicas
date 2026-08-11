@@ -1,3 +1,4 @@
+using Xunit;
 using FluentAssertions;
 using Moq;
 using SistemaTareas.Application.Contracts;
@@ -123,4 +124,3 @@ public sealed class AsignarTareaUseCaseTests
         public override DateTimeOffset GetUtcNow() => value;
     }
 }
-
